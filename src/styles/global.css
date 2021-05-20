@@ -1,0 +1,61 @@
+@import './reset.css';
+
+/* Global CSS Starts */
+html {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-spacing: 1px;
+}
+
+html.dark {
+  background: #121212;
+}
+
+body {
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2,
+h3 {
+  font-size: 1.7rem;
+}
+
+a {
+  background: transparent;
+  color: currentColor;
+  cursor: pointer;
+  text-decoration: none;
+  word-wrap: break-word;
+}
+
+:target {
+  scroll-margin-top: calc(60px + 1rem);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+}
+
+/* :focus {
+  outline: 2px solid #000000;
+  outline-offset: 0.25rem;
+} */
