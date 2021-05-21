@@ -1,8 +1,13 @@
 .btn {
   display: inline-block;
-  padding: 1rem 0.25rem;
-  background-color: red;
-  color: black;
+  padding: 0.25rem 1rem;
+  border: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--secondary);
+  border-radius: 0.25rem;
+  color: var(--black);
   cursor: pointer;
 }
 

@@ -1,14 +1,21 @@
-<script setup lang="ts">
-import { useRouter } from 'vue-router'
+<script lang="ts">
+  import { defineComponent } from 'vue'
+  import { useRouter } from 'vue-router'
 
-const router = useRouter()
+  export default defineComponent({
+    setup: () => {
+      const router = useRouter()
+
+      return { router }
+    },
+  })
 </script>
 
 <template>
-  <main class="px-4 py-10 text-center text-teal-700 dark:text-gray-200">
+  <main class="not-found">
     <div>
-      <p class="text-4xl">
-        <carbon-warning class="inline-block" />
+      <p>
+        <carbon-warning class="icon" />
       </p>
     </div>
     <router-view />
@@ -18,4 +25,18 @@ const router = useRouter()
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .not-found {
+    padding: 1rem 2.5rem;
+    color: var(--white);
+    text-align: center;
+  }
+
+  .not-found p {
+    font-size: 2.25rem;
+  }
+
+  .not-found .icon {
+    display: inline-block;
+  }
+</style>

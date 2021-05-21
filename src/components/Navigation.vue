@@ -1,5 +1,12 @@
-<script setup lang="ts">
+<script lang="ts">
+  import { defineComponent } from 'vue'
   import { isDark, toggleDark } from '~/logic'
+
+  export default defineComponent({
+    setup: () => {
+      return { isDark, toggleDark }
+    },
+  })
 </script>
 
 <template>
@@ -29,12 +36,14 @@
             Settings
           </router-link>
         </li>
+        <li class="menu-item">
+          <a class="icon-btn" title="Toggle Dark Mode" @click="toggleDark">
+            <carbon-moon v-if="isDark" />
+            <carbon-sun v-else />
+          </a>
+        </li>
       </ul>
     </div>
-    <a class="icon-btn" title="Toggle Dark Mode" @click="toggleDark">
-      <carbon-moon v-if="isDark" />
-      <carbon-sun v-else />
-    </a>
   </nav>
 </template>
 
@@ -82,7 +91,7 @@
     align-items: center;
     justify-content: center;
     border-bottom: 2px solid transparent;
-    font-size: 0.875rem;
+    font-size: 1rem;
     text-align: center;
     transition-duration: 100ms;
     transition-property: border-color;
@@ -96,14 +105,14 @@
 
   @media all and (min-width: 800px) {
     .site-nav {
-      position: relative;
-      z-index: 0;
-      height: 100%;
-      padding: 0;
-      margin-top: 1rem;
-      background-color: transparent;
-      border-radius: none;
-      color: var(--white);
+      position: sticky;
+      top: 0;
+      left: 0;
+      max-width: 5vw;
+      height: 100vh;
+      align-items: flex-start;
+      padding: 2rem 0;
+      border-radius: 0;
     }
 
     .site-nav-menu {
@@ -111,7 +120,7 @@
     }
 
     .menu {
-      flex-wrap: wrap;
+      flex-direction: column;
     }
 
     .menu-item {
@@ -122,10 +131,6 @@
       width: auto;
       font-size: 1rem;
       opacity: 0.75;
-    }
-
-    .nav-btn .icon {
-      display: none;
     }
   }
 </style>
