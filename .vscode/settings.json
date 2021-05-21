@@ -1,15 +1,14 @@
 {
   "cSpell.words": ["Vitesse"],
-  "i18n-ally.keystyle": "nested",
-  "i18n-ally.localesPaths": "locales",
-  "i18n-ally.sortKeys": true,
-  "prettier.enable": false,
+  "prettier.enable": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "volar.style.defaultLanguage": "postcss",
+  "volar.style.defaultLanguage": "css",
   "volar.tsPlugin": true,
   "volar.tsPluginStatus": false,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
+    "source.fixAll": true,
   },
   "files.associations": {
     "*.css": "css"

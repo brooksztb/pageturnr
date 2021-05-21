@@ -1,17 +1,21 @@
 @import './reset.css';
 
+/* Blocks */
+@import './blocks/button.css';
+@import './blocks/nprogress.css';
+
+/* Utilities */
+@import './utilities/theme.css';
+
 /* Global CSS Starts */
 html {
+  background: var(--primary);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   line-height: 1.6;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   word-spacing: 1px;
-}
-
-html.dark {
-  background: #121212;
 }
 
 body {
