@@ -31,6 +31,12 @@
           </router-link>
         </li>
         <li class="menu-item">
+          <router-link class="nav-btn" to="/books/add" title="Add Book">
+            <carbon-add-alt class="icon" />
+            Add Book
+          </router-link>
+        </li>
+        <li class="menu-item">
           <router-link class="nav-btn" to="/settings" title="Settings">
             <carbon-settings class="icon" />
             Settings
@@ -78,7 +84,7 @@
 
   .menu-item {
     display: flex;
-    width: 33.333%;
+    width: 25%;
     align-items: center;
     justify-content: center;
     padding: 1rem;
@@ -112,7 +118,8 @@
       height: 100vh;
       align-items: flex-start;
       padding: 2rem 0;
-      border-radius: 0;
+      border-bottom-right-radius: 0.375rem;
+      border-top-left-radius: 0;
     }
 
     .site-nav-menu {
