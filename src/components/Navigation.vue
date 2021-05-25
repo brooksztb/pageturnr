@@ -1,10 +1,9 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
-  import { isDark, toggleDark } from '~/logic'
 
   export default defineComponent({
     setup: () => {
-      return { isDark, toggleDark }
+      return {}
     },
   })
 </script>
@@ -21,32 +20,36 @@
         <li class="menu-item">
           <router-link class="nav-btn" to="/" title="Home">
             <carbon-home class="icon" />
-            Home
+            <br />
+            <span>Home</span>
           </router-link>
         </li>
         <li class="menu-item">
-          <router-link class="nav-btn" to="/books" title="Books">
-            <bx-bx-book-bookmark class="icon" />
-            Books
+          <router-link class="nav-btn" to="/library" title="Library">
+            <clarity-library-line class="icon" />
+            <br />
+            <span>Library</span>
           </router-link>
         </li>
-        <li class="menu-item">
+        <!-- <li class="menu-item">
           <router-link class="nav-btn" to="/books/add" title="Add Book">
             <carbon-add-alt class="icon" />
             Add Book
+          </router-link>
+        </li> -->
+        <li class="menu-item">
+          <router-link class="nav-btn" to="/statistics" title="Stats">
+            <gridicons-stats class="icon" />
+            <br />
+            <span>Stats</span>
           </router-link>
         </li>
         <li class="menu-item">
           <router-link class="nav-btn" to="/settings" title="Settings">
             <carbon-settings class="icon" />
-            Settings
+            <br />
+            <span>Settings</span>
           </router-link>
-        </li>
-        <li class="menu-item">
-          <a class="icon-btn" title="Toggle Dark Mode" @click="toggleDark">
-            <carbon-moon v-if="isDark" />
-            <carbon-sun v-else />
-          </a>
         </li>
       </ul>
     </div>
@@ -62,17 +65,20 @@
     width: 100%;
     height: 4rem;
     align-items: center;
-    justify-content: center;
-    padding: 1rem 0;
+    padding-bottom: 1rem;
     background-color: var(--secondary);
-    border-top-left-radius: 0.375rem;
-    border-top-right-radius: 0.375rem;
+    border-radius: 15px 15px 0px 0px;
+    box-shadow: rgb(0 0 0 / 10%) 0px -10px 10px;
     color: var(--primary);
+    font-size: 10px;
+    line-height: 1;
+    text-align: center;
   }
 
   .site-nav-menu {
     position: relative;
     width: 100%;
+    height: 100%;
   }
 
   .menu {
@@ -87,24 +93,27 @@
     width: 25%;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
   }
 
   .nav-btn {
-    display: flex;
+    display: block;
     width: 100%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     border-bottom: 2px solid transparent;
-    font-size: 1rem;
+    font-size: 0.875rem;
+    opacity: 0.7;
     text-align: center;
     transition-duration: 100ms;
     transition-property: border-color;
     transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 
-  .nav-btn:hover {
+  .nav-btn svg {
+    font-size: 1.2rem;
+  }
+
+  .nav-btn:hover,
+  .router-link-active.nav-btn {
     border-color: var(--secondary);
     opacity: 1;
   }
@@ -118,8 +127,7 @@
       height: 100vh;
       align-items: flex-start;
       padding: 2rem 0;
-      border-bottom-right-radius: 0.375rem;
-      border-top-left-radius: 0;
+      border-radius: 0;
     }
 
     .site-nav-menu {
@@ -137,7 +145,6 @@
     .nav-btn {
       width: auto;
       font-size: 1rem;
-      opacity: 0.75;
     }
   }
 </style>

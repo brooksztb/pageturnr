@@ -48,8 +48,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Vitesse',
-        short_name: 'Vitesse',
+        name: 'Pageturnr: Track you Reading Habits',
+        short_name: 'Pageturnr',
         theme_color: '#ffffff',
         icons: [
           {
@@ -79,13 +79,7 @@ export default defineConfig({
   },
 
   optimizeDeps: {
-    include: [
-      'vue',
-      'vue-router',
-      '@vueuse/core',
-    ],
-    exclude: [
-      'vue-demi',
-    ],
+    include: ['vue', 'vue-router', '@vueuse/core'],
+    exclude: ['vue-demi'],
   },
 })

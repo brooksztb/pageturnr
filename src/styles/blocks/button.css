@@ -12,7 +12,9 @@
 }
 
 .icon-btn {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   font-size: 0.9em;
   transition-duration: 200ms;
   transition-property: background-color, border-color, color, fill, stroke,

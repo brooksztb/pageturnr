@@ -27,7 +27,9 @@
   .book-collection {
     display: grid;
     width: 100%;
-    grid-gap: 1rem;
+    max-width: 1200px;
+    grid-column-gap: 1rem;
+    grid-row-gap: 2rem;
     grid-template-columns: 1fr;
   }
 
@@ -40,6 +42,18 @@
   @media all and (min-width: 800px) {
     .book-collection {
       grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media all and (min-width: 1024px) {
+    .book-collection {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media all and (min-width: 1280px) {
+    .book-collection {
+      max-width: 1600px;
     }
   }
 </style>
