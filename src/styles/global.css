@@ -7,10 +7,10 @@
 
 /* Utilities */
 @import './utilities/theme.css';
+@import './utilities/wrapper.css';
 
 /* Global CSS Starts */
 html {
-  background: var(--primary);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   line-height: 1.6;
@@ -21,6 +21,8 @@ html {
 }
 
 body {
+  padding-bottom: 4rem;
+  background: linear-gradient(var(--primary), var(--secondary));
   line-height: 1.5;
 }
 

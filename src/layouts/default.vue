@@ -1,12 +1,8 @@
 <template>
   <Navigation />
-  <main id="main" class="default-layout">
+  <main id="main">
     <router-view />
   </main>
 </template>
 
-<style scoped>
-  .default-layout {
-    padding: 2.5rem;
-  }
-</style>
+<style scoped></style>

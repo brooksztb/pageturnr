@@ -3,13 +3,19 @@ html {
 }
 
 html.dark {
-  --primary: #212121;
+  /* --primary: #212121;
   --secondary: #f59a00;
-  --accent-1: #e48106;
+  --accent-1: #e48106; */
   --accent-2: #d4690d;
   --accent-3: #c45114;
-  --white: #f9f9f9;
-  --black: #191919;
+  /* --white: #f9f9f9;
+  --black: #191919; */
   --red: #e53e3e;
   --green: #8cda93;
+
+  --primary: #141e30;
+  --secondary: #243b55;
+  --accent-1: #03e9f4;
+  --white: #ffffff;
+  --black: rgba(0, 0, 0, 0.5);
 }

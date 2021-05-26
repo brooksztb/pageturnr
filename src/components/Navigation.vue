@@ -66,10 +66,10 @@
     height: 4rem;
     align-items: center;
     padding-bottom: 1rem;
-    background-color: var(--secondary);
+    background-color: var(--primary);
     border-radius: 15px 15px 0px 0px;
     box-shadow: rgb(0 0 0 / 10%) 0px -10px 10px;
-    color: var(--primary);
+    color: var(--white);
     font-size: 10px;
     line-height: 1;
     text-align: center;
@@ -99,7 +99,6 @@
   .nav-btn {
     display: block;
     width: 100%;
-    border-bottom: 2px solid transparent;
     font-size: 0.875rem;
     opacity: 0.7;
     text-align: center;
@@ -114,7 +113,6 @@
 
   .nav-btn:hover,
   .router-link-active.nav-btn {
-    border-color: var(--secondary);
     opacity: 1;
   }
 
@@ -128,6 +126,7 @@
       align-items: flex-start;
       padding: 2rem 0;
       border-radius: 0;
+      box-shadow: rgb(0 0 0 / 10%) 10px 0 10px;
     }
 
     .site-nav-menu {

@@ -4,10 +4,7 @@
 
   export default defineComponent({
     props: {
-      slug: {
-        type: String,
-        required: true,
-      },
+      slug: String,
     },
     setup: (props) => {
       const router = useRouter()
@@ -20,3 +17,8 @@
 </script>
 
 <template></template>
+
+<route lang="yaml">
+meta:
+  layout: nested
+</route>

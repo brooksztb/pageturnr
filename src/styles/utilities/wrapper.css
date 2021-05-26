@@ -1,0 +1,14 @@
+.max-width-wrapper {
+  position: relative;
+  /* z-index: 2; */
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+@media all and (min-width: 800px) {
+  .max-width-wrapper {
+    padding: 0 2rem;
+  }
+}

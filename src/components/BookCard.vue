@@ -1,27 +1,40 @@
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent, PropType, computed } from 'vue'
+  import { Book } from '~/types/index'
+  import { slugify } from '~/utils/slugify'
 
   export default defineComponent({
     props: {
-      book: Object,
+      book: { type: Object as PropType<Book>, required: true },
     },
     setup: (props) => {
-      return {}
+      const authors = computed(() => {
+        return props.book.authors.join(', ')
+      })
+
+      const bookUrl = computed(() => {
+        let text = `${props.book.title} ${props.book.authors.join(', ')}`
+        return `/library/${slugify(text)}`
+      })
+
+      return {
+        authors,
+        bookUrl,
+      }
     },
   })
 </script>
 
 <template>
   <div class="book-card">
-    <!-- <img class="book-cover" :src="book.thumbnail" alt="book cover" /> -->
-    <img class="book-cover" alt="book cover" />
+    <img class="book-cover" :src="book.thumbnail" alt="book cover" />
     <div class="book-details">
       <div class="book-info">
         <h2 class="title">
-          <!-- {{ book.title }} -->
+          {{ book.title }}
         </h2>
         <h4 class="author">
-          <!-- {{ authors }} -->
+          {{ authors }}
         </h4>
         <div class="book-stats">
           <span class="pages-read">
@@ -50,13 +63,9 @@
         <span></span>
       </div>
       <div class="controls">
-        <!-- <router-link
-          class="btn"
-          :to="bookUrl"
-          role="button"
+        <router-link class="btn" :to="bookUrl" role="button"
           >View Book Info</router-link
-        > -->
-        <router-link class="btn" to="/books">View Book Info</router-link>
+        >
       </div>
     </div>
   </div>
@@ -71,8 +80,15 @@
     height: 400px;
     min-height: 300px;
     margin: 1rem 0;
+    background: linear-gradient(
+      to bottom,
+      #243b55 0%,
+      var(--black) 60%,
+      var(--black) 100%
+    );
+    background-blend-mode: multiply;
     border-radius: 0.5rem;
-    /* box-shadow:  */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
   }
 
   .book-cover {
@@ -84,13 +100,6 @@
     width: auto;
     max-width: 100%;
     height: auto;
-    background: linear-gradient(
-      to bottom,
-      rgba(245, 154, 0, 0.2) 0%,
-      var(--black) 60%,
-      var(--black) 100%
-    );
-    background-blend-mode: multiply;
     border-radius: 0.5rem;
     transform: translateX(-50%) translateY(-50%);
   }

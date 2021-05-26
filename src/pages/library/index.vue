@@ -5,29 +5,34 @@
     setup: () => {
       let books = ref([
         {
-          isbn: '1111319361371638153',
+          isbns: ['1111319361371638153'],
           title: 'Test',
-          author: 'A Person',
+          authors: ['A Person'],
         },
       ])
+      let addBookOpen = ref(false)
       return {
         books,
+        addBookOpen,
       }
     },
   })
 </script>
 
 <template>
-  <section class="book-collection">
-    <BookCard v-for="book in books" :key="book.isbn" :book="book" />
+  <section>
+    Toolbar to add books which will open a full screen modal
+    <button @click="addBookOpen = !addBookOpen">Add Book</button>
+    <AddBookForm :active="addBookOpen" @close="addBookOpen = false" />
+  </section>
+  <section class="[ book-collection ] [ max-width-wrapper ]">
+    <BookCard v-for="book in books" :key="book.title" :book="book" />
   </section>
 </template>
 
 <style scoped>
   .book-collection {
     display: grid;
-    width: 100%;
-    max-width: 1200px;
     grid-column-gap: 1rem;
     grid-row-gap: 2rem;
     grid-template-columns: 1fr;
