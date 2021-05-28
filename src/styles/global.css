@@ -76,4 +76,8 @@ th {
   #app {
     grid-template-columns: min-content 1fr;
   }
+
+  body {
+    padding-bottom: 0;
+  }
 }

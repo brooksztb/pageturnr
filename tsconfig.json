@@ -6,6 +6,7 @@
     "lib": ["DOM", "ESNext"],
     "strict": true,
     "esModuleInterop": true,
+    "isolatedModules": true,
     "incremental": false,
     "skipLibCheck": true,
     "moduleResolution": "node",
@@ -13,10 +14,7 @@
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-    "types": [
-      "vite/client",
-      "vite-plugin-vue-layouts/client"
-    ],
+    "types": ["vite/client", "vite-plugin-vue-layouts/client", "@types/uuid"],
     "paths": {
       "~/*": ["src/*"]
     }

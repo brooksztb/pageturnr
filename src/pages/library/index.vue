@@ -1,19 +1,31 @@
 <script lang="ts">
-  import { defineComponent, ref } from 'vue'
+  import { defineComponent, toRefs, reactive, onBeforeMount } from 'vue'
+  import { Book } from '~/types/index'
 
   export default defineComponent({
     setup: () => {
-      let books = ref([
-        {
-          isbns: ['1111319361371638153'],
-          title: 'Test',
-          authors: ['A Person'],
-        },
-      ])
-      let addBookOpen = ref(false)
+      const state = reactive({
+        books: [] as Array<Book>,
+        addBookOpen: false,
+      })
+
+      onBeforeMount(async () => {
+        const { books } = await fetch('/api/load-books').then((res) =>
+          res.json()
+        )
+        state.books = books
+      })
+
+      const handleFormClose = (newBook: Book) => {
+        state.addBookOpen = false
+        if (newBook) {
+          state.books.push(newBook)
+        }
+      }
+
       return {
-        books,
-        addBookOpen,
+        ...toRefs(state),
+        handleFormClose,
       }
     },
   })
@@ -23,7 +35,7 @@
   <section>
     Toolbar to add books which will open a full screen modal
     <button @click="addBookOpen = !addBookOpen">Add Book</button>
-    <AddBookForm :active="addBookOpen" @close="addBookOpen = false" />
+    <AddBookForm :active="addBookOpen" @close="handleFormClose" />
   </section>
   <section class="[ book-collection ] [ max-width-wrapper ]">
     <BookCard v-for="book in books" :key="book.title" :book="book" />

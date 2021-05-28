@@ -1,19 +1,25 @@
 <script lang="ts">
+  import { toRefs } from '@vueuse/core'
   import { defineComponent, reactive } from 'vue'
   import { Book } from '~/types/index'
+  import { v4 as uuidv4 } from 'uuid'
 
   export default defineComponent({
     props: {
       active: Boolean,
     },
     emits: ['close'],
-    setup: (props) => {
-      let book: Book = reactive({
-        title: '',
-        authors: [],
-        isbns: [],
-        page_count: 0,
-        thumbnail: '',
+    setup: (props, { emit }) => {
+      const state = reactive({
+        book: {
+          id: uuidv4(),
+          title: '',
+          authors: [] as string[],
+          isbns: [] as string[],
+          page_count: 0,
+          thumbnail: '',
+        } as Book,
+        newBook: {} as Book,
       })
 
       const addAuthor = (e: Event) => {
@@ -22,19 +28,19 @@
         if (target) {
           let val = target.value.trim()
           if (val.length > 0) {
-            book.authors.push(val)
+            state.book.authors.push(val)
             target.value = ''
           }
         }
       }
 
       const removeAuthor = (index: number) => {
-        book.authors.splice(index, 1)
+        state.book.authors.splice(index, 1)
       }
 
       const removeLastAuthor = (e: Event) => {
         if ((e.target as HTMLInputElement).value.length === 0) {
-          removeAuthor(book.authors.length - 1)
+          removeAuthor(state.book.authors.length - 1)
         }
       }
 
@@ -44,30 +50,70 @@
         if (target) {
           let val = target.value.trim()
           if (val.length > 0) {
-            book.isbns.push(val)
+            state.book.isbns.push(val)
             target.value = ''
           }
         }
       }
 
       const removeIsbn = (index: number) => {
-        book.isbns.splice(index, 1)
+        state.book.isbns.splice(index, 1)
       }
 
       const removeLastIsbn = (e: Event) => {
         if ((e.target as HTMLInputElement).value.length === 0) {
-          removeAuthor(book.isbns.length - 1)
+          removeIsbn(state.book.isbns.length - 1)
+        }
+      }
+
+      const addNewBook = async () => {
+        await fetch('/api/add-book', {
+          method: 'POST',
+          body: JSON.stringify({ book: state.book }),
+        })
+          .then((res) => {
+            res.json().then((body) => {
+              if (body.addedBook) {
+                state.newBook = body.addedBook
+                closeForm(true)
+              }
+            })
+          })
+          .catch((err) => {
+            console.log(err.exception)
+            console.log(err)
+          })
+      }
+
+      const closeForm = (newBookAdded: Boolean = false) => {
+        //reset state
+        state.book = {
+          id: uuidv4(),
+          title: '',
+          authors: [] as string[],
+          isbns: [] as string[],
+          page_count: 0,
+          thumbnail: '',
+        }
+
+        if (newBookAdded) {
+          emit('close', state.newBook)
+          state.newBook = {} as Book
+        } else {
+          emit('close')
         }
       }
 
       return {
-        book,
+        ...toRefs(state),
         addAuthor,
         removeAuthor,
         removeLastAuthor,
         addIsbn,
         removeIsbn,
         removeLastIsbn,
+        addNewBook,
+        closeForm,
       }
     },
   })
@@ -75,7 +121,7 @@
 <template>
   <div class="add-book" :data-state="active ? 'open' : 'closed'">
     <div class="[ add-book-wrapper ] [ max-width-wrapper ]">
-      <button type="button" @click="$emit('close')" class="[ btn close ]">
+      <button type="button" @click="closeForm()" class="[ btn close ]">
         <ant-design-close-square-outlined class="icon" />
         <span class="btn-label">CLOSE</span>
       </button>
@@ -114,7 +160,6 @@
                 id="authors"
                 type="text"
                 name="book author(s)"
-                :required="true"
                 @keydown.enter="addAuthor"
                 @keydown.188="addAuthor"
                 @keydown.delete="removeLastAuthor"
@@ -143,7 +188,6 @@
                 id="isbns"
                 type="text"
                 name="isbn(s)"
-                :required="true"
                 @keydown.enter="addIsbn"
                 @keydown.188="addIsbn"
                 @keydown.delete="removeLastIsbn"
@@ -154,10 +198,10 @@
             <span class="field-name">* Page Count</span>
             <input
               id="pageCount"
-              type="text"
+              type="number"
               name="page count"
               :required="true"
-              v-model="book.page_count"
+              v-model.number="book.page_count"
             />
           </label>
           <label for="thumbnail" class="input-box">
@@ -178,7 +222,9 @@
             alt="book thumbnail"
           />
         </div>
-        <button class="submit-btn" type="submit">Add</button>
+        <button class="submit-btn" type="submit" @click="addNewBook">
+          Add
+        </button>
       </form>
     </div>
   </div>
@@ -192,7 +238,7 @@
     left: 0;
     overflow: auto;
     /* background-color: var(--primary); */
-    background: linear-gradient(var(--primary), var(--secondary));
+    background-color: #111d2a;
     opacity: 0;
     -webkit-overflow-scrolling: touch;
     transform: translate3d(0, -100%, 0);
@@ -259,7 +305,7 @@
     margin-right: 0.5rem;
     margin-bottom: 0.25rem;
     background-color: var(--accent-1);
-    color: var(--primary);
+    color: var(--black);
   }
 
   .add-book-form .inputs .input-box .input-item .added {
@@ -295,13 +341,6 @@
     max-width: 400px;
     min-height: 300px;
     margin: 0 auto;
-    background: linear-gradient(
-      to bottom,
-      #243b55 0%,
-      var(--black) 60%,
-      var(--black) 100%
-    );
-    background-blend-mode: multiply;
     border-radius: 0.5rem;
     grid-area: thumbnail;
   }

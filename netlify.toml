@@ -7,6 +7,12 @@
   command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm run build"
 
 [[redirects]]
+  force = true
+  from = '/api/*'
+  status = 200
+  to = '/.netlify/functions/:splat'
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
@@ -15,3 +21,11 @@
   for = "/manifest.webmanifest"
   [headers.values]
     Content-Type = "application/manifest+json"
+
+[dev]
+autoLaunch = false
+# command = "pnpm dev"
+# framework = "#custom"
+functions = "functions"
+publish = "dist"
+targetPort = 3333

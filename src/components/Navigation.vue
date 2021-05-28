@@ -66,7 +66,8 @@
     height: 4rem;
     align-items: center;
     padding-bottom: 1rem;
-    background-color: var(--primary);
+    /* background-color: var(--black); */
+    background-color: #111d2a;
     border-radius: 15px 15px 0px 0px;
     box-shadow: rgb(0 0 0 / 10%) 0px -10px 10px;
     color: var(--white);
