@@ -26,8 +26,10 @@
 </script>
 
 <template>
-  <div class="book-card">
-    <img class="book-cover" :src="book.thumbnail" alt="book cover" />
+  <div class="book-card" :style="{ backgroundImage: `url(${book.thumbnail})` }">
+    <div class="book-cover-overlay">
+      <!-- <img class="book-cover" :src="book.thumbnail" alt="book cover" /> -->
+    </div>
     <div class="book-details">
       <div class="book-info">
         <h2 class="title">
@@ -80,18 +82,37 @@
     height: 400px;
     min-height: 300px;
     margin: 1rem 0;
-    background: linear-gradient(
-      to bottom,
-      #243b55 0%,
-      var(--black) 60%,
-      var(--black) 100%
-    );
-    background-blend-mode: multiply;
+    background-position: 50% 0;
+    background-repeat: no-repeat;
+    background-size: cover;
     border-radius: 0.5rem;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
   }
 
-  .book-cover {
+  .book-cover-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background: linear-gradient(
+      to bottom,
+      rgba(36, 59, 85, 0.4) 0%,
+      #111d2a 60%,
+      #111d2a 100%
+    ); */
+    background: linear-gradient(
+      to bottom,
+      rgba(36, 59, 85, 0.4) 0%,
+      #000000 65%,
+      #000000 100%
+    );
+    background-blend-mode: multiply;
+  }
+
+  /* .book-cover {
     position: absolute;
     z-index: 0;
     top: 50%;
@@ -114,7 +135,7 @@
       object-position: top center;
       transform: none;
     }
-  }
+  } */
 
   .book-details {
     position: relative;
@@ -135,7 +156,7 @@
   }
 
   .book-info .title {
-    color: var(--secondary);
+    color: var(--accent-1);
     font-size: 2.25rem;
   }
 
