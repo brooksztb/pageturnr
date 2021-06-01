@@ -18,10 +18,10 @@
     <div class="site-nav-menu">
       <ul class="menu">
         <li class="menu-item">
-          <router-link class="nav-btn" to="/" title="Home">
-            <carbon-home class="icon" />
+          <router-link class="nav-btn" to="/" title="Log">
+            <ph-clock-clockwise class="icon" />
             <br />
-            <span>Home</span>
+            <span>Log</span>
           </router-link>
         </li>
         <li class="menu-item">

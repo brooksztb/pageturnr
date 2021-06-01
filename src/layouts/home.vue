@@ -1,4 +1,5 @@
 <template>
+  <TopNavigation :includeBackButton="false" />
   <Navigation />
   <main id="main" class="">
     <router-view />

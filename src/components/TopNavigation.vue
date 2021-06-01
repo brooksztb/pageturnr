@@ -3,7 +3,10 @@
   import { useRouter } from 'vue-router'
 
   export default defineComponent({
-    setup: () => {
+    props: {
+      includeBackButton: Boolean,
+    },
+    setup: (props) => {
       const router = useRouter()
 
       return {
@@ -15,23 +18,26 @@
 
 <template>
   <nav class="top-navigation">
-    <button class="[ back-btn btn icon-btn ]" @click="router.back()">
+    <button
+      v-if="includeBackButton"
+      class="[ btn icon-btn icon-only ]"
+      @click="router.back()"
+    >
       <ion-arrow-back-sharp />
     </button>
+    <slot name="left"></slot>
+    <slot name="right"></slot>
   </nav>
 </template>
 
 <style scoped>
   .top-navigation {
-    height: 2.5rem;
+    display: flex;
+    height: 3rem;
+    align-items: center;
+    justify-content: space-between;
     padding: 0.5rem 0;
     background: transparent;
-  }
-
-  .back-btn {
-    background: transparent;
-    color: var(--white);
-    font-size: 1.25rem;
   }
 
   @media all and (min-width: 800px) {

@@ -3,10 +3,13 @@
   import { Book } from '~/types/index'
 
   export default defineComponent({
-    setup: () => {
+    props: {
+      addBookState: Boolean,
+    },
+    emits: ['setAddBook', 'toggleAddBook'],
+    setup: (props, { emit }) => {
       const state = reactive({
         books: [] as Array<Book>,
-        addBookOpen: false,
       })
 
       onBeforeMount(async () => {
@@ -16,8 +19,13 @@
         state.books = books
       })
 
+      const toggleForm = () => {
+        let toggleState = props.addBookState
+        emit('setAddBook', !toggleState)
+      }
+
       const handleFormClose = (newBook: Book) => {
-        state.addBookOpen = false
+        emit('setAddBook', false)
         if (newBook) {
           state.books.push(newBook)
         }
@@ -25,6 +33,7 @@
 
       return {
         ...toRefs(state),
+        toggleForm,
         handleFormClose,
       }
     },
@@ -34,8 +43,8 @@
 <template>
   <section>
     Toolbar to add books which will open a full screen modal
-    <button @click="addBookOpen = !addBookOpen">Add Book</button>
-    <AddBookForm :active="addBookOpen" @close="handleFormClose" />
+    <button @click="toggleForm">Add Book</button>
+    <AddBookForm :active="addBookState" @close="handleFormClose" />
   </section>
   <section class="[ book-collection ] [ max-width-wrapper ]">
     <BookCard v-for="book in books" :key="book.title" :book="book" />
@@ -74,3 +83,8 @@
     }
   }
 </style>
+
+<route lang="yaml">
+meta:
+  layout: library
+</route>
