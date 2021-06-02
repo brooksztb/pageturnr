@@ -12,3 +12,15 @@
     padding: 0 2rem;
   }
 }
+
+@media all and (min-width: 1024px) {
+  .max-width-wrapper {
+    padding: 0 4rem;
+  }
+}
+
+@media all and (min-width: 1280px) {
+  .extra-wide-wrapper {
+    max-width: 1600px;
+  }
+}

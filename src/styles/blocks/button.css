@@ -25,6 +25,7 @@
 }
 
 .icon-btn.icon-only {
+  padding: 0;
   background: transparent;
   color: var(--white);
   font-size: 1.25rem;

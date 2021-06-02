@@ -214,15 +214,10 @@
             />
           </label>
         </div>
-        <div class="thumbnail">
-          <img
-            v-show="book.thumbnail"
-            class="book-cover"
-            :src="book.thumbnail"
-            alt="book thumbnail"
-          />
+        <div v-if="book.thumbnail" class="thumbnail">
+          <img class="book-cover" :src="book.thumbnail" alt="book thumbnail" />
         </div>
-        <button class="submit-btn" type="submit" @click="addNewBook">
+        <button class="submit-btn btn" type="submit" @click="addNewBook">
           Add
         </button>
       </form>
@@ -371,7 +366,9 @@
   }
 
   .submit-btn {
+    max-width: fit-content;
     grid-area: buttons;
+    justify-self: center;
   }
 
   @media all and (min-width: 800px) {

@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent, onBeforeUnmount, onMounted, reactive } from 'vue'
   import { useRouter } from 'vue-router'
+  import useSticky from '~/features/sticky'
 
   export default defineComponent({
     props: {
@@ -11,13 +12,16 @@
 
       return {
         router,
+        ...useSticky(),
       }
     },
   })
 </script>
 
 <template>
-  <nav class="top-navigation">
+  <nav
+    class="[ top-navigation sticky ] [ max-width-wrapper extra-wide-wrapper ]"
+  >
     <button
       v-if="includeBackButton"
       class="[ btn icon-btn icon-only ]"
@@ -32,17 +36,26 @@
 
 <style scoped>
   .top-navigation {
+    position: sticky;
+    z-index: 1000;
+    top: -1px;
     display: flex;
     height: 3rem;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     background: transparent;
+  }
+
+  .isSticky {
+    /* background-color: #111d2a; */
+    background-color: var(--primary);
   }
 
   @media all and (min-width: 800px) {
     .top-navigation {
-      display: none;
+      height: 4rem;
     }
   }
 </style>

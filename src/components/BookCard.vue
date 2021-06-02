@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { defineComponent, PropType, computed } from 'vue'
+  import { defineComponent, PropType, computed, toRefs } from 'vue'
   import { Book } from '~/types/index'
   import { slugify } from '~/utils/slugify'
 
@@ -8,12 +8,14 @@
       book: { type: Object as PropType<Book>, required: true },
     },
     setup: (props) => {
+      const { book } = toRefs(props)
+
       const authors = computed(() => {
-        return props.book.authors.join(', ')
+        return book.value.authors.join(', ')
       })
 
       const bookUrl = computed(() => {
-        let text = `${props.book.title} ${props.book.authors.join(', ')}`
+        let text = `${book.value.title} ${book.value.authors.join(', ')}`
         return `/library/${slugify(text)}`
       })
 
@@ -65,9 +67,9 @@
         <span></span>
       </div>
       <div class="controls">
-        <router-link class="btn" :to="bookUrl" role="button"
+        <!-- <router-link class="btn" :to="bookUrl" role="button"
           >View Book Info</router-link
-        >
+        > -->
       </div>
     </div>
   </div>

@@ -20,28 +20,28 @@
   })
 </script>
 <template>
-  <TopNavigation :includeBackButton="false">
-    <template v-slot:left>
-      <button
-        class="[ btn icon-btn icon-only ]"
-        @click="searchBook = !searchBook"
-        title="Search for Books"
-      >
-        <carbon-search />
-      </button>
-    </template>
-    <template v-slot:right>
-      <button
-        class="[ btn icon-btn icon-only ]"
-        @click="addBook = !addBook"
-        title="Add Book"
-      >
-        <codicon-add />
-      </button>
-    </template>
-  </TopNavigation>
   <Navigation />
   <main id="main">
+    <TopNavigation :includeBackButton="false">
+      <template v-slot:left>
+        <button
+          class="[ btn icon-btn icon-only ]"
+          @click="searchBook = !searchBook"
+          title="Search for Books"
+        >
+          <carbon-search />
+        </button>
+      </template>
+      <template v-slot:right>
+        <button
+          class="[ btn icon-btn icon-only ]"
+          @click="addBook = !addBook"
+          title="Add Book"
+        >
+          <codicon-add />
+        </button>
+      </template>
+    </TopNavigation>
     <router-view @set-add-book="setAddBook" :addBookState="addBook" />
   </main>
 </template>
