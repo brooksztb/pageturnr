@@ -6,6 +6,7 @@
 @import './blocks/nprogress.css';
 
 /* Utilities */
+@import './utilities/flow.css';
 @import './utilities/theme.css';
 @import './utilities/wrapper.css';
 

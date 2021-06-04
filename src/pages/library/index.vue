@@ -39,7 +39,6 @@
       <div>Loading Books...</div>
     </template>
   </Suspense>
-  <!-- <BookCard v-for="book in books" :key="book.title" :book="book" /> -->
 </template>
 
 <style scoped></style>

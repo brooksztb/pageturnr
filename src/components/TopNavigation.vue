@@ -22,14 +22,15 @@
   <nav
     class="[ top-navigation sticky ] [ max-width-wrapper extra-wide-wrapper ]"
   >
-    <button
-      v-if="includeBackButton"
-      class="[ btn icon-btn icon-only ]"
-      @click="router.back()"
-    >
-      <ion-arrow-back-sharp />
-    </button>
-    <slot name="left"></slot>
+    <slot name="left">
+      <button
+        v-if="includeBackButton"
+        class="[ btn icon-btn icon-only ]"
+        @click="router.back()"
+      >
+        <ion-arrow-back-sharp />
+      </button>
+    </slot>
     <slot name="right"></slot>
   </nav>
 </template>
@@ -56,6 +57,10 @@
   @media all and (min-width: 800px) {
     .top-navigation {
       height: 4rem;
+    }
+
+    .isSticky {
+      background-color: transparent;
     }
   }
 </style>

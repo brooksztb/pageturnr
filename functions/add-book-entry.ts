@@ -7,13 +7,13 @@ const handler: Handler = async (event) => {
   const data = await hasuraRequest({
     query: `
         mutation AddBookEntry($entry: book_entries_insert_input = {}) {
-            addedBookEntry: insert_book_entries_one(object: $entry){
-                id
-                book_id
-                date
-                minutes
-                pages
-            }
+          addedBookEntry: insert_book_entries_one(object: $entry) {
+            id
+            book_id
+            date
+            minutes
+            pages
+          }
         }
       `,
     variables: {
@@ -23,7 +23,7 @@ const handler: Handler = async (event) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify(data),
+    body: JSON.stringify(data.addedBookEntry),
   }
 }
 

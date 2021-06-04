@@ -1,7 +1,7 @@
 <template>
-  <TopNavigation :includeBackButton="false" />
   <Navigation />
   <main id="main" class="">
+    <TopNavigation :includeBackButton="false" />
     <router-view />
   </main>
 </template>
