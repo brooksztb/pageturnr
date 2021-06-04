@@ -69,12 +69,7 @@
     height: 100px;
     min-height: 75px;
     padding: 0.5rem 1rem;
-    background: linear-gradient(
-      to bottom,
-      rgba(36, 59, 85, 0.4) 0%,
-      #000000 65%,
-      #000000 100%
-    );
+    background: var(--secondary);
     border-radius: 0.5rem;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
   }
