@@ -71,7 +71,6 @@
     padding: 0.5rem 1rem;
     background: var(--secondary);
     border-radius: 0.5rem;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
   }
 
   .entry-details {

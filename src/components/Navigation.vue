@@ -101,6 +101,7 @@
     display: block;
     width: 100%;
     font-size: 0.875rem;
+    font-weight: 700;
     opacity: 0.7;
     text-align: center;
     transition-duration: 100ms;

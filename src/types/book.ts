@@ -27,3 +27,8 @@ export interface BookStats {
   minutes_to_complete: number
   completion_percentage: number
 }
+
+export interface GroupedEntriesByMonth {
+  title: string
+  entries: BookEntry[]
+}

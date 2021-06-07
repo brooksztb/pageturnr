@@ -7,11 +7,13 @@
 
 /* Utilities */
 @import './utilities/flow.css';
+@import './utilities/font.css';
 @import './utilities/theme.css';
 @import './utilities/wrapper.css';
 
 /* Global CSS Starts */
 html {
+  font-family: var(--font-family-body);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   line-height: 1.6;
@@ -35,6 +37,7 @@ body {
 h1,
 h2,
 h3 {
+  font-family: var(--font-family-header);
   font-weight: 700;
   line-height: 1.2;
 }
