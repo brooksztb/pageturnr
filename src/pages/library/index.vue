@@ -30,7 +30,9 @@
 </script>
 
 <template>
-  <AddBookForm :active="addBookState" @close="handleFormClose" />
+  <Dropdown :active="addBookState" @close="handleFormClose">
+    <AddBookForm />
+  </Dropdown>
   <Suspense>
     <template #default>
       <BookList />

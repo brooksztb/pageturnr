@@ -5,11 +5,7 @@
   import { v4 as uuidv4 } from 'uuid'
 
   export default defineComponent({
-    props: {
-      active: Boolean,
-    },
-    emits: ['close'],
-    setup: (props, { emit }) => {
+    setup: (props) => {
       const state = reactive({
         book: {
           id: uuidv4(),
@@ -50,19 +46,21 @@
         if (target) {
           let val = target.value.trim()
           if (val.length > 0) {
-            state.book.isbns.push(val)
+            if (state.book.isbns) {
+              state.book.isbns.push(val)
+            }
             target.value = ''
           }
         }
       }
 
       const removeIsbn = (index: number) => {
-        state.book.isbns.splice(index, 1)
+        if (state.book.isbns) state.book.isbns.splice(index, 1)
       }
 
       const removeLastIsbn = (e: Event) => {
         if ((e.target as HTMLInputElement).value.length === 0) {
-          removeIsbn(state.book.isbns.length - 1)
+          if (state.book.isbns) removeIsbn(state.book.isbns.length - 1)
         }
       }
 
@@ -75,7 +73,7 @@
             res.json().then((body) => {
               if (body.addedBook) {
                 state.newBook = body.addedBook
-                closeForm(true)
+                resetForm(true)
               }
             })
           })
@@ -85,7 +83,7 @@
           })
       }
 
-      const closeForm = (newBookAdded: Boolean = false) => {
+      const resetForm = (newBookAdded: Boolean = false) => {
         //reset state
         state.book = {
           id: uuidv4(),
@@ -97,10 +95,7 @@
         }
 
         if (newBookAdded) {
-          emit('close', state.newBook)
           state.newBook = {} as Book
-        } else {
-          emit('close')
         }
       }
 
@@ -113,162 +108,128 @@
         removeIsbn,
         removeLastIsbn,
         addNewBook,
-        closeForm,
+        resetForm,
       }
     },
   })
 </script>
 <template>
-  <div class="add-book" :data-state="active ? 'open' : 'closed'">
-    <div class="[ add-book-wrapper ] [ max-width-wrapper ]">
-      <button type="button" @click="closeForm()" class="[ btn close ]">
-        <ant-design-close-square-outlined class="icon" />
-        <span class="btn-label">CLOSE</span>
-      </button>
-      <form class="add-book-form">
-        <h2 class="heading">Add Book</h2>
-        <div class="inputs">
-          <label for="title" class="input-box">
-            <span class="field-name">* Title</span>
-            <input
-              id="title"
-              type="text"
-              name="book title"
-              :required="true"
-              v-model="book.title"
-            />
-          </label>
-          <label for="authors" class="input-box">
-            <span class="field-name">* Author(s)</span>
-            <div class="list-input">
-              <div
-                class="input-item"
-                v-for="(author, index) in book.authors"
-                :key="index"
+  <div class="[ add-book-wrapper ] [ max-width-wrapper ]">
+    <form class="add-book-form">
+      <h2 class="heading">Add Book</h2>
+      <div class="inputs">
+        <label for="title" class="input-box">
+          <span class="field-name">* Title</span>
+          <input
+            id="title"
+            type="text"
+            name="book title"
+            :required="true"
+            v-model="book.title"
+          />
+        </label>
+        <label for="authors" class="input-box">
+          <span class="field-name">* Author(s)</span>
+          <div class="list-input">
+            <div
+              class="input-item"
+              v-for="(author, index) in book.authors"
+              :key="index"
+            >
+              <button
+                type="button"
+                class="added"
+                @click="removeAuthor(index)"
+                :aria-label="`Remove ${author}`"
               >
-                <button
-                  type="button"
-                  class="added"
-                  @click="removeAuthor(index)"
-                  :aria-label="`Remove ${author}`"
-                >
-                  x
-                </button>
-                {{ author }}
-              </div>
-              <input
-                id="authors"
-                type="text"
-                name="book author(s)"
-                @keydown.enter="addAuthor"
-                @keydown.188="addAuthor"
-                @keydown.delete="removeLastAuthor"
-              />
+                x
+              </button>
+              {{ author }}
             </div>
-          </label>
-          <label for="isbns" class="input-box">
-            <span class="field-name">* ISBN(s) (10/13)</span>
-            <div class="list-input">
-              <div
-                class="input-item"
-                v-for="(isbn, index) in book.isbns"
-                :key="index"
-              >
-                <button
-                  type="button"
-                  class="added"
-                  @click="removeIsbn(index)"
-                  :aria-label="`Remove ${isbn}`"
-                >
-                  x
-                </button>
-                {{ isbn }}
-              </div>
-              <input
-                id="isbns"
-                type="text"
-                name="isbn(s)"
-                @keydown.enter="addIsbn"
-                @keydown.188="addIsbn"
-                @keydown.delete="removeLastIsbn"
-              />
-            </div>
-          </label>
-          <label for="pageCount" class="input-box">
-            <span class="field-name">* Page Count</span>
             <input
-              id="pageCount"
-              type="number"
-              name="page count"
-              :required="true"
-              v-model.number="book.page_count"
-            />
-          </label>
-          <label for="thumbnail" class="input-box">
-            <span class="field-name">Thumbnail</span>
-            <input
-              id="thumbnail"
+              id="authors"
               type="text"
-              name="thumbnail"
-              v-model="book.thumbnail"
+              name="book author(s)"
+              @keydown.enter="addAuthor"
+              @keydown.188="addAuthor"
+              @keydown.delete="removeLastAuthor"
             />
-          </label>
-        </div>
-        <div v-if="book.thumbnail" class="thumbnail">
-          <img class="book-cover" :src="book.thumbnail" alt="book thumbnail" />
-        </div>
-        <button class="submit-btn btn" type="submit" @click="addNewBook">
-          Add
+          </div>
+        </label>
+        <label for="isbns" class="input-box">
+          <span class="field-name">* ISBN(s) (10/13)</span>
+          <div class="list-input">
+            <div
+              class="input-item"
+              v-for="(isbn, index) in book.isbns"
+              :key="index"
+            >
+              <button
+                type="button"
+                class="added"
+                @click="removeIsbn(index)"
+                :aria-label="`Remove ${isbn}`"
+              >
+                x
+              </button>
+              {{ isbn }}
+            </div>
+            <input
+              id="isbns"
+              type="text"
+              name="isbn(s)"
+              @keydown.enter="addIsbn"
+              @keydown.188="addIsbn"
+              @keydown.delete="removeLastIsbn"
+            />
+          </div>
+        </label>
+        <label for="pageCount" class="input-box">
+          <span class="field-name">* Page Count</span>
+          <input
+            id="pageCount"
+            type="number"
+            name="page count"
+            :required="true"
+            v-model.number="book.page_count"
+          />
+        </label>
+        <label for="thumbnail" class="input-box">
+          <span class="field-name">Thumbnail</span>
+          <input
+            id="thumbnail"
+            type="text"
+            name="thumbnail"
+            v-model="book.thumbnail"
+          />
+        </label>
+      </div>
+      <div class="thumbnail">
+        <img
+          v-if="book.thumbnail"
+          class="book-cover"
+          :src="book.thumbnail"
+          alt="book thumbnail"
+        />
+        <div v-else class="book-cover-placeholder"><h3>Book Cover</h3></div>
+      </div>
+      <div class="buttons">
+        <button class="reset-btn btn" type="button" @click="resetForm(false)">
+          Reset
         </button>
-      </form>
-    </div>
+        <button class="submit-btn btn" type="submit" @click="addNewBook">
+          Add Book
+        </button>
+      </div>
+    </form>
   </div>
 </template>
 
 <style scoped>
-  .add-book {
-    position: fixed;
-    top: -200%;
-    right: 0;
-    left: 0;
-    overflow: auto;
-    /* background-color: var(--primary); */
-    background-color: #111d2a;
-    opacity: 0;
-    -webkit-overflow-scrolling: touch;
-    transform: translate3d(0, -100%, 0);
-    transition: transform 0.2s, top 0s ease 0.2s, bottom 0s ease 0.2s,
-      left 0s ease 0.2s, opacity 0.25s;
-  }
-
-  .add-book[data-state='open'] {
-    z-index: 1100;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    opacity: 1;
-    transform: translateZ(0);
-    transition: transform 0.25s, top 0s, bottom 0s, left 0s, opacity 0s;
-  }
-
   .add-book-wrapper {
     position: relative;
     padding-top: 1rem;
     padding-bottom: 1rem;
-  }
-
-  .btn.close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0;
-    background-color: transparent;
-    color: var(--white);
-    font-size: 1.5rem;
-  }
-
-  .btn.close .btn-label {
-    display: none;
   }
 
   .add-book-form {
@@ -316,6 +277,7 @@
 
   .add-book-form .inputs .input-box .field-name {
     color: var(--accent-1);
+    font-weight: 700;
   }
 
   .add-book-form .inputs .input-box input {
@@ -365,10 +327,42 @@
     }
   }
 
-  .submit-btn {
-    max-width: fit-content;
+  .book-cover-placeholder {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      to bottom,
+      rgba(36, 59, 85, 0.4) 0%,
+      #000000 65%,
+      #000000 100%
+    );
+    background-blend-mode: multiply;
+    color: var(--white);
+  }
+
+  .book-cover-placeholder h3 {
+    font-size: 3rem;
+    transform: rotate(25deg);
+  }
+
+  .buttons {
+    display: flex;
+    width: 100%;
+    justify-content: center;
     grid-area: buttons;
-    justify-self: center;
+  }
+  .submit-btn,
+  .reset-btn {
+    max-width: fit-content;
+    margin: 0 0.5rem;
   }
 
   @media all and (min-width: 800px) {
