@@ -38,7 +38,7 @@
       <BookList />
     </template>
     <template #fallback>
-      <div>Loading Books...</div>
+      <Loading />
     </template>
   </Suspense>
 </template>

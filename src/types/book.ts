@@ -7,6 +7,7 @@ export interface Book {
   thumbnail?: string
   stats?: BookStats
   entries?: Array<BookEntry>
+  status?: BookStatus
 }
 
 export interface BookEntry {
@@ -15,7 +16,7 @@ export interface BookEntry {
   date: string
   minutes: number
   pages: number
-  book: Book
+  book?: Book
 }
 
 export interface BookStats {
@@ -31,4 +32,18 @@ export interface BookStats {
 export interface GroupedEntriesByMonth {
   title: string
   entries: BookEntry[]
+}
+
+export interface ReadingBlock {
+  startTime: Date
+  endTime?: Date
+}
+
+export interface ReadingSession {
+  blocks: Array<ReadingBlock>
+}
+
+export enum BookStatus {
+  Reading = 'Reading',
+  Completed = 'Completed',
 }

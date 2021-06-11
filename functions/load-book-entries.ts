@@ -10,6 +10,7 @@ const handler: Handler = async (event) => {
                     id
                     title
                     authors
+                    status
                 }
                 date
                 id

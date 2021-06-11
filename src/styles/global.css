@@ -9,6 +9,7 @@
 @import './utilities/flow.css';
 @import './utilities/font.css';
 @import './utilities/theme.css';
+@import './utilities/transition.css';
 @import './utilities/wrapper.css';
 
 /* Global CSS Starts */

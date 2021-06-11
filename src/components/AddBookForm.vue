@@ -119,7 +119,7 @@
       <h2 class="heading">Add Book</h2>
       <div class="inputs">
         <label for="title" class="input-box">
-          <span class="field-name">* Title</span>
+          <span class="field-name">Title *</span>
           <input
             id="title"
             type="text"
@@ -129,7 +129,7 @@
           />
         </label>
         <label for="authors" class="input-box">
-          <span class="field-name">* Author(s)</span>
+          <span class="field-name">Author(s) *</span>
           <div class="list-input">
             <div
               class="input-item"
@@ -157,7 +157,7 @@
           </div>
         </label>
         <label for="isbns" class="input-box">
-          <span class="field-name">* ISBN(s) (10/13)</span>
+          <span class="field-name">ISBN(s) (10/13) *</span>
           <div class="list-input">
             <div
               class="input-item"
@@ -185,7 +185,7 @@
           </div>
         </label>
         <label for="pageCount" class="input-box">
-          <span class="field-name">* Page Count</span>
+          <span class="field-name">Page Count *</span>
           <input
             id="pageCount"
             type="number"
@@ -284,7 +284,11 @@
     width: 100%;
     border: none;
     border-bottom: 1px solid #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     background: transparent;
+    border-radius: 0;
     color: #fff;
     font-size: 16px;
     outline: none;
@@ -373,20 +377,6 @@
         'inputs thumbnail'
         'buttons buttons';
       grid-template-columns: repeat(2, minmax(0, 50%));
-    }
-
-    .btn.close {
-      padding: 0.25rem 1rem;
-      background-color: var(--accent-1);
-      color: var(--primary);
-      font-size: 1.25rem;
-    }
-
-    .btn.close .icon {
-      display: none;
-    }
-    .btn.close .btn-label {
-      display: inline-block;
     }
   }
 </style>

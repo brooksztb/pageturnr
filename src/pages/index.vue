@@ -1,20 +1,51 @@
 <script lang="ts">
-  import { defineComponent } from 'vue'
-
+  import { defineComponent, toRefs, reactive } from 'vue'
+  import { BookEntry, Book } from '~/types/index'
   export default defineComponent({
-    setup: () => {
-      return {}
+    props: {
+      addEntryState: Boolean,
+    },
+    emits: ['setAddEntry', 'toggleAddEntry'],
+    setup: (props, { emit }) => {
+      const state = reactive({
+        availableBooks: [],
+      })
+      const toggleForm = () => {
+        let toggleState = props.addEntryState
+        emit('toggleAddEntry', !toggleState)
+      }
+
+      const handleFormClose = (newEntry: BookEntry) => {
+        emit('setAddEntry', false)
+        // if (newBook) {
+        //   state.books.push(newBook)
+        // }
+      }
+
+      const handleAvailableBooks = (books: Book[]) => {
+        state.availableBooks = books
+      }
+
+      return {
+        ...toRefs(state),
+        toggleForm,
+        handleFormClose,
+        handleAvailableBooks,
+      }
     },
   })
 </script>
 
 <template>
+  <Dropdown :active="addEntryState" @close="handleFormClose">
+    <AddEntryForm :availableBooks="availableBooks" />
+  </Dropdown>
   <Suspense>
     <template #default>
-      <BookEntryList />
+      <BookEntryList @setAvailableBooks="handleAvailableBooks" />
     </template>
     <template #fallback>
-      <div>Loading Entries...</div>
+      <Loading />
     </template>
   </Suspense>
 </template>

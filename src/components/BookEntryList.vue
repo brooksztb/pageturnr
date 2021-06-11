@@ -1,13 +1,38 @@
 <script lang="ts">
-  import { defineComponent, computed } from 'vue'
-  import { GroupedEntriesByMonth } from '~/types/index'
+  import { defineComponent, computed, Ref } from 'vue'
+  import { GroupedEntriesByMonth, Book, BookEntry } from '~/types/index'
   import useEntries from '~/features/entries'
   import { groupBy } from '~/utils/array'
   import { parseISO, format } from 'date-fns'
 
   export default defineComponent({
-    setup: async () => {
-      const { book_entries } = await useEntries()
+    emits: ['setAvailableBooks'],
+    setup: async (props, { emit }) => {
+      const availableBooks = (book_entries: Ref<BookEntry[] | undefined>) => {
+        let availableBooks: Book[] = []
+        if (book_entries) {
+          availableBooks = Object.entries(
+            groupBy(book_entries.value, (obj) => obj.book.title)
+          ).map(
+            ([title, entries]) =>
+              ({
+                id: entries[0].book.id,
+                title: title,
+                authors: entries[0].book.authors,
+                status: entries[0].book.status,
+              } as Book)
+          )
+        }
+
+        return availableBooks
+      }
+      const { book_entries } = await useEntries().then((res) => {
+        if (res.book_entries) {
+          let books = availableBooks(res.book_entries)
+          emit('setAvailableBooks', books)
+        }
+        return res
+      })
 
       const groupedEntries = computed(() => {
         let entries: GroupedEntriesByMonth[] = []

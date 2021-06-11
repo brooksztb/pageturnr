@@ -12,6 +12,7 @@ const handler: Handler = async (event) => {
                 isbns
                 id
                 authors
+                status
                 stats {
                   completion_percentage
                   minutes_to_complete

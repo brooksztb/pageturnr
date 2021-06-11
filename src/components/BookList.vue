@@ -15,7 +15,7 @@
 
 <template>
   <ul class="[ book-collection ] [ max-width-wrapper extra-wide-wrapper ]">
-    <li v-for="book in books" :key="book.title">
+    <li v-for="book in books" :key="book.id">
       <BookCard :book="book" />
     </li>
   </ul>

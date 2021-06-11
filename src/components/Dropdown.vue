@@ -47,6 +47,7 @@
 
   .btn.close {
     position: absolute;
+    z-index: inherit;
     top: 1rem;
     right: 1rem;
     padding: 0;

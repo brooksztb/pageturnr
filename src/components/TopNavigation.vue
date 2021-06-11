@@ -22,16 +22,20 @@
   <nav
     class="[ top-navigation sticky ] [ max-width-wrapper extra-wide-wrapper ]"
   >
-    <slot name="left">
-      <button
-        v-if="includeBackButton"
-        class="[ btn icon-btn icon-only ]"
-        @click="router.back()"
-      >
-        <ion-arrow-back-sharp />
-      </button>
-    </slot>
-    <slot name="right"></slot>
+    <div class="left">
+      <slot name="left">
+        <button
+          v-if="includeBackButton"
+          class="[ btn icon-btn icon-only ]"
+          @click="router.back()"
+        >
+          <ion-arrow-back-sharp />
+        </button>
+      </slot>
+    </div>
+    <div class="right">
+      <slot name="right"></slot>
+    </div>
   </nav>
 </template>
 
@@ -52,6 +56,14 @@
   .isSticky {
     /* background-color: #111d2a; */
     background-color: var(--primary);
+  }
+
+  .left {
+    justify-self: flex-start;
+  }
+
+  .right {
+    justify-self: flex-end;
   }
 
   @media all and (min-width: 800px) {
