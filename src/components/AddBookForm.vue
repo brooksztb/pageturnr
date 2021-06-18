@@ -64,7 +64,7 @@
         }
       }
 
-      const addNewBook = async () => {
+      const addNewBookEntry = async () => {
         await fetch('/api/add-book', {
           method: 'POST',
           body: JSON.stringify({ book: state.book }),
@@ -107,7 +107,7 @@
         addIsbn,
         removeIsbn,
         removeLastIsbn,
-        addNewBook,
+        addNewBookEntry,
         resetForm,
       }
     },
@@ -217,7 +217,7 @@
         <button class="reset-btn btn" type="button" @click="resetForm(false)">
           Reset
         </button>
-        <button class="submit-btn btn" type="submit" @click="addNewBook">
+        <button class="submit-btn btn" type="submit" @click="addNewBookEntry">
           Add Book
         </button>
       </div>

@@ -20,11 +20,14 @@
         } as BookEntry,
         startPage: 0,
         endPage: 0,
+        startTime: '',
+        endTime: '',
         readingSession: {} as ReadingSession,
         currentReadingBlock: {} as ReadingBlock,
         newEntry: {} as BookEntry,
         isReading: false,
         isPaused: false,
+        manualEntry: false,
       })
 
       const calculateTimeRead = () => {
@@ -33,8 +36,8 @@
           totalReadingTime = state.readingSession.blocks.reduce(
             (total, readingBlock) =>
               (total += differenceInMinutes(
-                readingBlock.startTime,
-                readingBlock.endTime || 0
+                readingBlock.endTime || 0,
+                readingBlock.startTime
               )),
             0
           )
@@ -43,8 +46,19 @@
         return totalReadingTime
       }
 
+      const manuallyCalculateTimeRead = () => {
+        if (state.startTime && state.endTime) {
+          const startDate = new Date(`${state.entry.date} ${state.startTime}`)
+          const endDate = new Date(`${state.entry.date} ${state.endTime}`)
+
+          state.entry.minutes = differenceInMinutes(endDate, startDate)
+        }
+      }
+
       const calculateTotalPages = () => {
-        return (state.endPage = state.startPage)
+        if (state.endPage > 0 && state.startPage > 0) {
+          state.entry.pages = state.endPage - state.startPage
+        }
       }
 
       const startReading = () => {
@@ -64,7 +78,7 @@
         state.isReading = false
         completeReadingBlock()
         state.entry.minutes = calculateTimeRead()
-        state.entry.pages = calculateTotalPages()
+        calculateTotalPages()
       }
 
       const completeReadingBlock = () => {
@@ -114,6 +128,8 @@
         startReading,
         pauseReading,
         endReading,
+        calculateTotalPages,
+        manuallyCalculateTimeRead,
       }
     },
   })
@@ -140,6 +156,15 @@
             </option>
           </select>
         </label>
+        <div class="checkbox-input">
+          <input
+            id="entry-type"
+            type="checkbox"
+            name="entry-type"
+            v-model="manualEntry"
+          />
+          <label class="field-name" for="entry-type">Manually Add Entry?</label>
+        </div>
         <label for="date" class="input-box">
           <span class="field-name">Date (YYYY-MM-DD)*</span>
           <input id="date" type="text" name="date" v-model="entry.date" />
@@ -151,6 +176,7 @@
             type="number"
             name="startingPage"
             v-model.number="startPage"
+            @input="calculateTotalPages"
           />
         </label>
         <label for="endingPage" class="input-box">
@@ -160,9 +186,10 @@
             type="number"
             name="endingPage"
             v-model.number="endPage"
+            @input="calculateTotalPages"
           />
         </label>
-        <div class="reading-control-buttons">
+        <div v-show="!manualEntry" class="reading-control-buttons">
           <button type="button" class="control-btn btn" @click="startReading">
             <carbon-play-filled-alt />
           </button>
@@ -183,6 +210,28 @@
             <carbon-stop-filled />
           </button>
         </div>
+        <div v-show="manualEntry" class="manual-time-inputs">
+          <label for="startTime" class="input-box">
+            <span class="field-name">Start Time</span>
+            <input
+              id="startTime"
+              type="text"
+              name="startTime"
+              v-model="startTime"
+              @change="manuallyCalculateTimeRead"
+            />
+          </label>
+          <label for="endTime" class="input-box">
+            <span class="field-name">End Time</span>
+            <input
+              id="endTime"
+              type="text"
+              name="endTime"
+              v-model="endTime"
+              @change="manuallyCalculateTimeRead"
+            />
+          </label>
+        </div>
         <label for="timeRead" class="input-box">
           <span class="field-name">Total Time Read</span>
           <input
@@ -190,7 +239,7 @@
             type="number"
             name="thumbnail"
             v-model.number="entry.minutes"
-            readonly
+            :readonly="manualEntry ? false : true"
           />
         </label>
         <label for="pagesRead" class="input-box">
@@ -200,7 +249,7 @@
             type="number"
             name="pages read"
             v-model.number="entry.pages"
-            readonly
+            :readonly="manualEntry ? false : true"
           />
         </label>
       </div>
@@ -266,6 +315,11 @@
     opacity: 0.75;
   }
 
+  .add-book-form .inputs .checkbox-input .field-name {
+    color: var(--white);
+    font-weight: 700;
+  }
+
   .add-book-form .inputs .input-box .field-name {
     color: var(--accent-1);
     font-weight: 700;
@@ -283,6 +337,106 @@
     color: #fff;
     font-size: 16px;
     outline: none;
+  }
+
+  .add-book-form .inputs .checkbox-input {
+    position: relative;
+  }
+
+  .add-book-form .inputs .checkbox-input [type='checkbox']:not(:checked),
+  [type='checkbox']:checked {
+    position: absolute;
+    left: 0;
+    opacity: 0.01;
+  }
+
+  .add-book-form
+    .inputs
+    .checkbox-input
+    [type='checkbox']:not(:checked)
+    + label,
+  .add-book-form .inputs .checkbox-input [type='checkbox']:checked + label {
+    position: relative;
+    padding-left: 2rem;
+    cursor: pointer;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  /* checkbox aspect */
+  .add-book-form
+    .inputs
+    .checkbox-input
+    [type='checkbox']:not(:checked)
+    + label:before,
+  .add-book-form
+    .inputs
+    .checkbox-input
+    [type='checkbox']:checked
+    + label:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1.4em;
+    height: 1.4em;
+    border: 1px solid var(--accent-1);
+    background: var(--primary);
+    border-radius: 0.2em;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 0 rgba(3, 233, 244, 0.2);
+    content: '';
+    -webkit-transition: all 0.275s;
+    transition: all 0.275s;
+  }
+
+  .add-book-form
+    .inputs
+    .checkbox-input
+    [type='checkbox']:checked
+    + label:before {
+    background: var(--accent-1);
+  }
+
+  /* checked mark aspect */
+  .add-book-form
+    .inputs
+    .checkbox-input
+    [type='checkbox']:not(:checked)
+    + label:after,
+  .add-book-form
+    .inputs
+    .checkbox-input
+    [type='checkbox']:checked
+    + label:after {
+    position: absolute;
+    top: 0.6em;
+    left: 0.18em;
+    color: var(--primary);
+    content: '✕';
+    font-size: 1.375rem;
+    line-height: 0;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+  }
+
+  /* checked mark aspect changes */
+  .add-book-form
+    .inputs
+    .checkbox-input
+    [type='checkbox']:not(:checked)
+    + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0) rotate(45deg);
+    transform: scale(0) rotate(45deg);
+  }
+
+  .add-book-form
+    .inputs
+    .checkbox-input
+    [type='checkbox']:checked
+    + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1) rotate(0);
+    transform: scale(1) rotate(0);
   }
 
   .thumbnail {
