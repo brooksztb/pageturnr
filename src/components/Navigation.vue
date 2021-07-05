@@ -63,12 +63,11 @@
     bottom: 0;
     display: flex;
     width: 100%;
-    height: 4rem;
+    height: 5rem;
     align-items: center;
-    padding-bottom: 1rem;
+    padding-bottom: 1.75rem;
     /* background-color: var(--black); */
     background-color: #111d2a;
-    border-radius: 15px 15px 0px 0px;
     box-shadow: rgb(0 0 0 / 10%) 0px -10px 10px;
     color: var(--white);
     font-size: 10px;
@@ -94,7 +93,7 @@
     width: 25%;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
   }
 
   .nav-btn {
@@ -123,7 +122,7 @@
       position: sticky;
       top: 0;
       left: 0;
-      max-width: 5vw;
+      max-width: max-content;
       height: 100vh;
       align-items: flex-start;
       padding: 2rem 0;

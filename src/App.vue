@@ -13,7 +13,8 @@
           {
             hid: 'description',
             name: 'description',
-            content: 'Opinionated Vite Starter Template',
+            content:
+              'Pageturnr is an app that lets you log your reading sessions and track your reading speed over time.',
           },
         ],
       })
